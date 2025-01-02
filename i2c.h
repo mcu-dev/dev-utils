@@ -1,14 +1,14 @@
 /**
  ******************************************************************************
  * @file    i2c.h
- * @author  - Anthony E.Raterta
+ * @author  - Timothy Gorbunov
  * @version V1.0.0
  * @date    13-September-2024
  * @brief   I2C wrappers prototypes
  ******************************************************************************
  * @attention
  *
- * Copyright (c) 2024 mcu-dev
+ * Copyright (c) 2024 Timothy Gorbunov
  * All rights reserved.
  *
  * This software is licensed under terms that can be found in the LICENSE file
