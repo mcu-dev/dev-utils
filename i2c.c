@@ -2,6 +2,7 @@
  ******************************************************************************
  * @file    i2c.c
  * @author  - Timothy Gorbunov
+ *          - Anthoy Raterta
  * @version V1.0.0
  * @date    13-September-2024
  * @brief   I2C wrappers for Zephyr I2C
@@ -17,45 +18,15 @@
  *
  ******************************************************************************
  */
-#include <stdint.h>
-#include <stdio.h>
-#include <zephyr/device.h>
-#include <zephyr/devicetree.h>
-#include <zephyr/drivers/i2c.h>
-#include <zephyr/kernel.h>
-
 #include "i2c.h"
 
 #define i2c0_master DT_NODELABEL(i2c0)
 
-bool init_i2c0(struct device **bus) {
-  *bus = DEVICE_DT_GET(i2c0_master);
-  if (!device_is_ready(*bus)) {
-    printk("I2C bus is not ready!\n\r");
-    return false;
-  }
-  return true;
-}
+bool init_i2c0(void) { return true; }
 
-int i2c0_write_bytes(struct device **bus, uint8_t address,
-                     uint8_t *data_buffer) {
-  uint32_t bytecount = 2;
-  return i2c_write(*bus, data_buffer, bytecount, address);
-}
+int8_t i2c0_write_bytes(uint8_t dev_addr, uint8_t *data_buffer) { return 0; }
 
-int i2c0_read_byte(struct device **bus, uint8_t address,
-                   uint8_t data_read_virtual_address, uint8_t *read_data) {
-  int ret;
-  uint32_t bytecount = 1;
-
-  ret = i2c_write(*bus, &data_read_virtual_address, bytecount, address);
-  if (ret != 0) {
-    return ret;
-  }
-
-  ret = i2c_read(*bus, read_data, sizeof(*read_data), address);
-  if (ret != 0) {
-    return ret;
-  }
+int8_t i2c0_read_byte(uint8_t dev_addr, uint8_t data_read_virtual_address,
+                      uint8_t *read_data) {
   return 0;
 }

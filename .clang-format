@@ -1,0 +1,3 @@
+BasedOnStyle: LLVM
+AlignConsecutiveMacros: true
+AlignConsecutiveAssignments: true

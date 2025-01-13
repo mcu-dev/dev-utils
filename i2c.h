@@ -2,6 +2,7 @@
  ******************************************************************************
  * @file    i2c.h
  * @author  - Timothy Gorbunov
+ *          - Anthoy Raterta
  * @version V1.0.0
  * @date    13-September-2024
  * @brief   I2C wrappers prototypes
@@ -20,12 +21,11 @@
 #ifndef I2C_H_INCLUDED
 #define I2C_H_INCLUDED
 
+#include <stdbool.h>
 #include <stdint.h>
-#include <zephyr/device.h>
 
-bool init_i2c0(struct device **bus);
-int i2c0_write_bytes(struct device **bus, uint8_t address,
-                     uint8_t *data_buffer);
-int i2c0_read_byte(struct device **bus, uint8_t address,
-                   uint8_t data_read_virtual_address, uint8_t *read_data);
+bool i2c_init(void);
+int8_t i2c_write_bytes(uint8_t dev_addr, uint8_t *data_buffer);
+int8_t i2c_read_byte(uint8_t dev_addr, uint8_t data_read_virtual_address,
+                     uint8_t *read_data);
 #endif
