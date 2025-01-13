@@ -9,7 +9,7 @@
  ******************************************************************************
  * @attention
  *
- * Copyright (c) 2024 Timothy Gorbunov
+ * Copyright (c) 2024 Timothy Gorbunov, mcu-dev
  * All rights reserved.
  *
  * This software is licensed under terms that can be found in the LICENSE file
@@ -23,9 +23,15 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+typedef enum {
+  I2C_STATUS_SUCCESS = 0,
+  I2C_STATUS_ERR     = -1,
+} I2C_RETURN_STATUS;
 
 bool i2c_init(void);
+
 int8_t i2c_write_bytes(uint8_t dev_addr, uint8_t *data_buffer);
+
 int8_t i2c_read_byte(uint8_t dev_addr, uint8_t data_read_virtual_address,
                      uint8_t *read_data);
 #endif

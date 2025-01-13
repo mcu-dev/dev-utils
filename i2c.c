@@ -9,7 +9,7 @@
  ******************************************************************************
  * @attention
  *
- * Copyright (c) 2024 Timothy Gorbunov
+ * Copyright (c) 2024 Timothy Gorbunov, mcu-dev
  * All rights reserved.
  *
  * This software is licensed under terms that can be found in the LICENSE file
@@ -20,13 +20,86 @@
  */
 #include "i2c.h"
 
+#ifdef PLATFORM_ZEPHYR
+#include <zephyr/device.h>
+#include <zephyr/devicetree.h>
+#include <zephyr/drivers/i2c.h>
+#include <zephyr/kernel.h>
+
 #define i2c0_master DT_NODELABEL(i2c0)
+const struct device *i2c0_dev;
+#endif
 
-bool init_i2c0(void) { return true; }
+/**
+ * @brief Initializes the I2C interface.
+ *
+ * This function sets up the I2C peripheral for communication.
+ *
+ * @param None.
+ *
+ * @return `true` if the initialization is successful,
+ *         `false` otherwise (future implementation).
+ */
+bool i2c_init(void) {
+#ifdef PLATFORM_ZEPHYR
+  i2c0_dev = DEVICE_DT_GET(i2c0_master);
+  if (!device_is_ready(i2c0_dev)) {
+    printk("I2C bus is not ready!\n\r");
+    return false;
+  }
+#endif
+  return true;
+}
 
-int8_t i2c0_write_bytes(uint8_t dev_addr, uint8_t *data_buffer) { return 0; }
+/**
+ * @brief Writes data to a register of the device over I2C.
+ *
+ * This function writes data to a specified register of the device using
+ * the provided data buffer.
+ *
+ * @param dev_addr     I2C address of the device.
+ * @param data_buffer Pointer to the buffer containing the data to be written.
+ *
+ * @return
+ *   - 0 on success.
+ *   - Non-zero error code on failure.
+ */
+int8_t i2c_write_bytes(uint8_t dev_addr, uint8_t *data_buffer) {
+#ifdef PLATFORM_ZEPHYR
+  uint32_t bytecount = 2;
+  return i2c_write(i2c0_dev, data_buffer, bytecount, dev_addr);
+#endif
+}
 
-int8_t i2c0_read_byte(uint8_t dev_addr, uint8_t data_read_virtual_address,
-                      uint8_t *read_data) {
-  return 0;
+/**
+ * @brief Reads a register value from the device via I2C.
+ *
+ * Reads a single register from the device and stores the retrieved value
+ * in the specified buffer.
+ *
+ * @param dev_addr     I2C address of the device
+ * @param data_read_virtual_address         Register address to read from.
+ * @param read_data   Pointer to the buffer where the read value will be stored.
+ *
+ * @return
+ *   - 0 on success.
+ *   - Non-zero error code on failure.
+ */
+int8_t i2c_read_byte(uint8_t dev_addr, uint8_t data_read_virtual_address,
+                     uint8_t *read_data) {
+#ifdef PLATFORM_ZEPHYR         
+  uint32_t bytecount = 1;
+
+  if (i2c_write(i2c0_dev, &data_read_virtual_address, bytecount, dev_addr) !=
+      I2C_STATUS_SUCCESS) {
+    return I2C_STATUS_ERR;
+  }
+
+  if (i2c_read(i2c0_dev, read_data, sizeof(*read_data), dev_addr) !=
+      I2C_STATUS_SUCCESS) {
+    return I2C_STATUS_ERR;
+  }
+
+  return I2C_STATUS_SUCCESS;
+#endif
 }
