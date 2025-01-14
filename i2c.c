@@ -87,7 +87,7 @@ int8_t i2c_write_bytes(uint8_t dev_addr, uint8_t *data_buffer) {
  */
 int8_t i2c_read_byte(uint8_t dev_addr, uint8_t data_read_virtual_address,
                      uint8_t *read_data) {
-#ifdef PLATFORM_ZEPHYR         
+#ifdef PLATFORM_ZEPHYR
   uint32_t bytecount = 1;
 
   if (i2c_write(i2c0_dev, &data_read_virtual_address, bytecount, dev_addr) !=
