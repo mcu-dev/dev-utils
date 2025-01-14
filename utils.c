@@ -25,20 +25,6 @@
 #endif
 
 /**
- * @brief 	Put the current thread to sleep.
- *
- * @param s Value in seconds to put the thread to sleep
- *
- * @return None.
- * 
- */
-void delay(int32_t s) {
-#ifdef PLATFORM_ZEPHYR
-  k_sleep(s);
-#endif
-}
-
-/**
  * @brief 	Put the current thread to sleep in milliseconds
  *
  * @param ms Value in seconds to put the thread to sleep

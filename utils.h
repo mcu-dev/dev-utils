@@ -22,8 +22,6 @@
 
 #include <stdint.h>
 
-void delay(int32_t s);
-
 void delay_ms(int32_t ms);
 
 void delay_us(int32_t us);
