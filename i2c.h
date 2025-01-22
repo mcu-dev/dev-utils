@@ -30,7 +30,10 @@ typedef enum {
 
 bool i2c_init(void);
 
-int8_t i2c_write_bytes(uint8_t dev_addr, uint8_t *data_buffer);
+int8_t i2c_write_byte(uint8_t dev_addr, uint8_t *data_buffer);
+
+int8_t i2c_write_multiple_bytes(uint8_t dev_addr, uint8_t *data_buffer,
+                                uint32_t bytecount);
 
 int8_t i2c_read_byte(uint8_t dev_addr, uint8_t data_read_virtual_address,
                      uint8_t *read_data);

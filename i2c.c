@@ -64,9 +64,30 @@ bool i2c_init(void) {
  *   - 0 on success.
  *   - Non-zero error code on failure.
  */
-int8_t i2c_write_bytes(uint8_t dev_addr, uint8_t *data_buffer) {
+int8_t i2c_write_byte(uint8_t dev_addr, uint8_t *data_buffer) {
 #ifdef PLATFORM_ZEPHYR
   uint32_t bytecount = 2;
+  return i2c_write(i2c0_dev, data_buffer, bytecount, dev_addr);
+#endif
+}
+
+/**
+ * @brief Writes multiple data to a register of the device over I2C.
+ *
+ * This function writes data to a specified register of the device using
+ * the provided data buffer.
+ *
+ * @param dev_addr     I2C address of the device.
+ * @param data_buffer Pointer to the buffer containing the data to be written.
+ * @param bytecount   Number of bytes to be sent via I2C
+ *
+ * @return
+ *   - 0 on success.
+ *   - Non-zero error code on failure.
+ */
+int8_t i2c_write_multiple_bytes(uint8_t dev_addr, uint8_t *data_buffer,
+                                uint32_t bytecount) {
+#ifdef PLATFORM_ZEPHYR
   return i2c_write(i2c0_dev, data_buffer, bytecount, dev_addr);
 #endif
 }

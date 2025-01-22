@@ -31,7 +31,7 @@
  * in milliseconds
  *
  * @return None.
- * 
+ *
  */
 void delay_ms(int32_t ms) {
 #ifdef PLATFORM_ZEPHYR
@@ -46,7 +46,7 @@ void delay_ms(int32_t ms) {
  * in microseconds
  *
  * @return None.
- * 
+ *
  */
 void delay_us(int32_t us) {
 #ifdef PLATFORM_ZEPHYR
